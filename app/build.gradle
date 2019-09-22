@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.joelwasserman.androidbletutorial"
+        applicationId "com.krasavkana.android.bleswitch"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -25,6 +25,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.preference:preference:1.1.0'
 
 //    compile 'com.android.support:appcompat-v7:25.4.0'
 }
