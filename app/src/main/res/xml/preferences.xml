@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="Settings"
+    android:key="preference_root">
+
+    <ListPreference
+        android:title="Theme"
+        android:key="preference_theme"
+        android:entries="@array/entries_preference_theme"
+        android:entryValues="@array/entry_values_preference_theme"
+        android:defaultValue="@string/default_value_preference_theme" />
+
+    <EditTextPreference
+        app:key="bledevicename"
+        app:title="Device Name(e.g. pochirueco)"/>
+
+    <EditTextPreference
+        app:key="bledeviceaddress"
+        app:title="Address(e.g. 12:34:56:78:90:AB)"/>
+
+    <EditTextPreference
+        app:key="bleserviceuuid"
+        app:title="UUID(e.g. b3b36901-50d3-...)"/>
+
+
+</PreferenceScreen>
+

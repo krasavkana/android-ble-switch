@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BleSwitch</string>
+    <string name="title">Ble Switches That Control Smartphone</string>
+    <string name="start_btn">Start Service</string>
+    <string name="stop_btn">Stop Service</string>
+    <string name="uuid_text">uuid</string>
+    <string name="address_text">address</string>
+    <string name="default_value_preference_theme">light</string>
+</resources>
