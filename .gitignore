@@ -1,0 +1,11 @@
+# .gitignore - Android Studio
+
+.git/
+.gradle/
+.idea/
+
+*.iml
+local.properties
+
+build/
+
