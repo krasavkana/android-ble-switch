@@ -48,13 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     //PochiruEco
-//    private static final String DEFAULT_BLE_NAME = "PochiruEco0393367";
-//    private static final String DEFAULT_BLE_ADDRESS = "F2:82:B4:89:B0:A3";
     private static final String DEFAULT_BLE_UUID = "b3b36901-50d3-4044-808d-50835b13a6cd";
-//    AB Shutter08
-//    private static final String DEFAULT_BLE_NAME = "AB Shutter08";
-//    private static final String DEFAULT_BLE_ADDRESS = "FF:FF:08:1A:9A:92";
-//    private static final String DEFAULT_BLE_UUID = "bab2ec33-f202-43db-988d-c24b36584617";
 
     SharedPreferences mPref;
 
