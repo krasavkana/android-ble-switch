@@ -23,6 +23,12 @@
         app:key="bleserviceuuid"
         app:title="UUID(e.g. b3b36901-50d3-...)"/>
 
+    <ListPreference
+        android:title="ScanMode"
+        android:key="preference_blescan"
+        android:entries="@array/entries_preference_blescan"
+        android:entryValues="@array/entry_values_preference_blescan"
+        android:defaultValue="@string/default_value_preference_blescan" />
 
 </PreferenceScreen>
 

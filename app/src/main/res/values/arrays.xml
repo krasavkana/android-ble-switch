@@ -10,4 +10,15 @@
         <item>dark</item>
     </string-array>
 
+    <string-array name="entries_preference_blescan">
+        <item>LOW_LATENCY</item>
+        <item>LOW_POWER</item>
+        <item>BALANCED</item>
+    </string-array>
+    <string-array name="entry_values_preference_blescan">
+        <item>Latency</item>
+        <item>Power</item>
+        <item>Balance</item>
+    </string-array>
+
 </resources>

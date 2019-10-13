@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.Fragment;
@@ -37,15 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_ENABLE_BT = 1;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
-    private BluetoothManager btManager;
-    private BluetoothAdapter btAdapter;
-    private BluetoothLeScanner btScanner;
-
     private String bleName;
     private String bleUuid;
     private String bleAddress;
-
-    private Toolbar toolbar;
+    private String bleScan;
 
     //PochiruEco
     private static final String DEFAULT_BLE_UUID = "b3b36901-50d3-4044-808d-50835b13a6cd";
@@ -57,16 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate()");
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        mPref = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
-//        bleUuid = mPref.getString("bleuuid",DEFAULT_BLE_UUID);
-//        Log.d(TAG,"bleuuid: " + bleUuid);
-//        ((TextView) findViewById(R.id.uuid_value)).setText(bleUuid);
-//        bleAddress = mPref.getString("bleaddress",DEFAULT_BLE_ADDRESS);
-//        Log.d(TAG,"bleaddress: " + bleAddress);
-//        ((TextView) findViewById(R.id.address_value)).setText(bleAddress);
 
         findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -85,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"bleDeviceName: " + bleName);
                 if(bleName.length() > 0) {
                     intent.putExtra("BLE_DEVICE_NAME", bleName);
+                }
+                Log.d(TAG,"bleScanMode: " + bleScan);
+                if(bleScan.length() > 0) {
+                    intent.putExtra("BLE_SCAN_MODE", bleScan);
                 }
 
                 // Serviceの開始
@@ -109,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothManager btManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
 
         if (btManager == null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -120,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        btAdapter = btManager.getAdapter();
+        BluetoothAdapter btAdapter = btManager.getAdapter();
 
         if (btAdapter == null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        btScanner = btAdapter.getBluetoothLeScanner();
+        BluetoothLeScanner btScanner = btAdapter.getBluetoothLeScanner();
 
-        if (btAdapter != null && !btAdapter.isEnabled()) {
+        if (!btAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent,REQUEST_ENABLE_BT);
         }
@@ -157,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart()");
+        Log.d(TAG, "onStart()");
         // レイアウトルートの背景をテーマ設定の値によって変更
         RelativeLayout root = findViewById(R.id.root);
         mPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -170,21 +163,27 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 //        mPref = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
-        bleName = mPref.getString("bledevicename","");
-        Log.d(TAG,"blename: " + bleName);
+        bleName = mPref.getString("bledevicename", "");
+        Log.d(TAG, "blename: " + bleName);
         ((TextView) findViewById(R.id.name_value)).setText(bleName);
-        bleUuid = mPref.getString("bleserviceuuid","");
-        if (bleUuid.length() == 0 ) {
+
+        bleUuid = mPref.getString("bleserviceuuid", "");
+        if (bleUuid != null && bleUuid.length() == 0) {
             bleUuid = DEFAULT_BLE_UUID;
         }
-        Log.d(TAG,"bleuuid: " + bleUuid);
+        Log.d(TAG, "bleuuid: " + bleUuid);
         ((TextView) findViewById(R.id.uuid_value)).setText(bleUuid);
-        bleAddress = mPref.getString("bledeviceaddress","");
-        Log.d(TAG,"bleaddress: " + bleAddress);
+
+        bleAddress = mPref.getString("bledeviceaddress", "");
+        Log.d(TAG, "bleaddress: " + bleAddress);
         if (bleAddress.length() == 12) {
             bleAddress = getBleDeviceAddress(bleAddress);
         }
         ((TextView) findViewById(R.id.address_value)).setText(bleAddress);
+
+        bleScan = mPref.getString("preference_blescan", getString(R.string.default_value_preference_blescan));
+        Log.d(TAG, "blescan: " + bleScan);
+        ((TextView) findViewById(R.id.scan_value)).setText(bleScan);
     }
     @Override
     protected void onResume() {

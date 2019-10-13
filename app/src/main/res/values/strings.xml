@@ -6,4 +6,5 @@
     <string name="uuid_text">uuid</string>
     <string name="address_text">address</string>
     <string name="default_value_preference_theme">light</string>
+    <string name="default_value_preference_blescan">Latency</string>
 </resources>

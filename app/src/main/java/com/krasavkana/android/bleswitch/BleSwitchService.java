@@ -57,8 +57,14 @@ public class BleSwitchService extends Service {
     private String mBleDeviceName;
     private String mBleDeviceAddress;
     private String mBleServiceUuid;
+    private String mBleScanMode;
 //    private String mBleUuid = "b3b36901-50d3-4044-808d-50835b13a6cd";
 //    private String mBleAddress = "F2:82:B4:89:B0:A3";
+
+
+    private final static String SCAN_LOW_LATENCY = "Latency";
+    private final static String SCAN_LOW_POWER   = "Power";
+    private final static String SCAN_BALANCED    = "Balance";
 
     @Override
     public void onCreate() {
@@ -78,6 +84,8 @@ public class BleSwitchService extends Service {
         Log.d(TAG, "mBleServiceUuid: " + mBleServiceUuid);
         mBleDeviceAddress = intent.getStringExtra("BLE_DEVICE_ADDRESS");
         Log.d(TAG, "mBleDeviceAddress: " + mBleDeviceAddress);
+        mBleScanMode = intent.getStringExtra("BLE_SCAN_MODE");
+        Log.d(TAG, "mBleScanMode: " + mBleScanMode);
         Context context = getApplicationContext();
         String channelId = "default";
         String title = "Ble Switches That Control Smartphone";
@@ -120,8 +128,8 @@ public class BleSwitchService extends Service {
 
         startScanning();
 
-        return START_NOT_STICKY;
-        //return START_STICKY;
+        //return START_NOT_STICKY;
+        return START_STICKY;
         //return START_REDELIVER_INTENT;
     }
 
@@ -195,14 +203,21 @@ public class BleSwitchService extends Service {
                 Vector<ScanFilter> filter = new Vector<ScanFilter>();
                 filter.add(builder.build());
                 ScanSettings.Builder settings = new ScanSettings.Builder();
-                if(Build.VERSION.SDK_INT >= 26) {
-                    settings.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
-                }else {
-                    settings.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
-//                    settings.setScanMode(ScanSettings.SCAN_MODE_BALANCED);
+                switch (mBleScanMode) {
+                    case SCAN_LOW_LATENCY:
+                        Log.d(TAG, "SCAN_MODE: LOW_LATENCY");
+                        settings.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
+                        break;
+                    case SCAN_LOW_POWER:
+                        Log.d(TAG, "SCAN_MODE: LOW_POWER");
+                        settings.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
+                        break;
+                    case SCAN_BALANCED:
+                        Log.d(TAG, "SCAN_MODE: BALANCED");
+                        settings.setScanMode(ScanSettings.SCAN_MODE_BALANCED);
+                        break;
                 }
                 btScanner.startScan(filter, settings.build(), leScanCallback);
-//                btScanner.startScan(leScanCallback);
             }
         });
     }

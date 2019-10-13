@@ -87,5 +87,21 @@
         android:layout_below="@id/address_value"
         android:text="text" />
 
+    <TextView
+        android:id="@+id/scan_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/uuid_value"
+        android:text="SCAN" />
+
+    <TextView
+        android:id="@+id/scan_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="70dp"
+        android:layout_below="@id/uuid_value"
+        android:text="text" />
 
 </RelativeLayout>
