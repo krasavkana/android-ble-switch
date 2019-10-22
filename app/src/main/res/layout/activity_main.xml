@@ -18,21 +18,23 @@
 
     <Button
         android:id="@+id/start_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_below="@id/toolbar"
+        android:layout_centerInParent="false"
         android:text="@string/start_btn"
     />
 
     <Button
         android:id="@+id/stop_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
+        android:layout_toEndOf="@id/start_button"
         android:layout_marginTop="20dp"
-        android:text="@string/stop_btn"
-        android:visibility="invisible" />
+        android:layout_marginEnd="20dp"
+        android:text="@string/stop_btn" />
 
     <TextView
         android:id="@+id/name_title"
@@ -40,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/start_button"
-        android:text="Name" />
+        android:text="DeviceName" />
 
 
     <TextView
@@ -48,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="120dp"
         android:layout_below="@id/start_button"
         android:text="text" />
 
@@ -58,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/name_title"
-        android:text="Address" />
+        android:text="DevuceAddress" />
 
 
     <TextView
@@ -66,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="120dp"
         android:layout_below="@id/name_title"
         android:text="text" />
 
@@ -76,14 +78,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/address_value"
-        android:text="UUID" />
+        android:text="ServiceUUID" />
 
     <TextView
         android:id="@+id/uuid_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="120dp"
         android:layout_below="@id/address_value"
         android:text="text" />
 
@@ -93,15 +95,66 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/uuid_value"
-        android:text="SCAN" />
+        android:text="ScanMode" />
 
     <TextView
         android:id="@+id/scan_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="120dp"
         android:layout_below="@id/uuid_value"
+        android:text="text" />
+
+    <TextView
+        android:id="@+id/package_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/scan_value"
+        android:text="RemotePackage" />
+
+    <TextView
+        android:id="@+id/package_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="120dp"
+        android:layout_below="@id/scan_value"
+        android:text="text" />
+
+    <TextView
+        android:id="@+id/class_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/package_value"
+        android:text="RemoteClass" />
+
+    <TextView
+        android:id="@+id/class_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="120dp"
+        android:layout_below="@id/package_value"
+        android:text="text" />
+
+    <TextView
+        android:id="@+id/command_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/class_value"
+        android:text="BleCommand" />
+
+    <TextView
+        android:id="@+id/command_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="120dp"
+        android:layout_below="@id/class_value"
         android:text="text" />
 
 </RelativeLayout>

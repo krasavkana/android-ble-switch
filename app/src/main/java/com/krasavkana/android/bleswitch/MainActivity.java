@@ -43,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
     private String bleUuid;
     private String bleAddress;
     private String bleScan;
+    private String remotePackage;
+    private String remoteClass;
+    private String remoteCommand;
 
     //PochiruEco
-    private static final String DEFAULT_BLE_UUID = "b3b36901-50d3-4044-808d-50835b13a6cd";
+//    private static final String DEFAULT_BLE_UUID = "b3b36901-50d3-4044-808d-50835b13a6cd";
 
     SharedPreferences mPref;
 
@@ -78,6 +81,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"bleScanMode: " + bleScan);
                 if(bleScan.length() > 0) {
                     intent.putExtra("BLE_SCAN_MODE", bleScan);
+                }
+                Log.d(TAG,"remotePackageName: " + remotePackage);
+                if(remotePackage.length() > 0) {
+                    intent.putExtra("REMOTE_PACKAGE_NAME", remotePackage);
+                }
+                Log.d(TAG,"remoteClassName: " + remoteClass);
+                if(remoteClass.length() > 0) {
+                    intent.putExtra("REMOTE_CLASS_NAME", remoteClass);
+                }
+                Log.d(TAG,"remoteClassName: " + remoteCommand);
+                if(remoteCommand.length() > 0) {
+                    intent.putExtra("REMOTE_COMMAND", remoteCommand);
                 }
 
                 // Serviceの開始
@@ -168,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.name_value)).setText(bleName);
 
         bleUuid = mPref.getString("bleserviceuuid", "");
-        if (bleUuid != null && bleUuid.length() == 0) {
-            bleUuid = DEFAULT_BLE_UUID;
+        if (bleUuid.length() == 0) {
+            bleUuid = getString(R.string.default_value_bleserviceuuid);
         }
         Log.d(TAG, "bleuuid: " + bleUuid);
         ((TextView) findViewById(R.id.uuid_value)).setText(bleUuid);
@@ -184,6 +199,28 @@ public class MainActivity extends AppCompatActivity {
         bleScan = mPref.getString("preference_blescan", getString(R.string.default_value_preference_blescan));
         Log.d(TAG, "blescan: " + bleScan);
         ((TextView) findViewById(R.id.scan_value)).setText(bleScan);
+
+        remotePackage = mPref.getString("remotepackage", "");
+        if (remotePackage.length() == 0) {
+            remotePackage = getString(R.string.default_value_remotepackage);
+        }
+        Log.d(TAG, "remotePackage: " + remotePackage);
+        ((TextView) findViewById(R.id.package_value)).setText(remotePackage);
+
+        remoteClass = mPref.getString("remoteclass", "");
+        if (remoteClass.length() == 0) {
+            remoteClass = getString(R.string.default_value_remoteclass);
+        }
+        Log.d(TAG, "remoteClass: " + remoteClass);
+        ((TextView) findViewById(R.id.class_value)).setText(remoteClass);
+
+        remoteCommand = mPref.getString("remotecommand", "");
+        if (remoteCommand.length() == 0) {
+            remoteCommand = getString(R.string.default_value_remotecommand);
+        }
+        Log.d(TAG, "remotePackage: " + remoteCommand);
+        ((TextView) findViewById(R.id.command_value)).setText(remoteCommand);
+
     }
     @Override
     protected void onResume() {

@@ -30,5 +30,17 @@
         android:entryValues="@array/entry_values_preference_blescan"
         android:defaultValue="@string/default_value_preference_blescan" />
 
+    <EditTextPreference
+        app:key="remotepackage"
+        app:title="Remote Package Name(e.g. com.example)"/>
+
+    <EditTextPreference
+        app:key="remoteclass"
+        app:title="Remote Class Name(e.g. com.example.MainActivity)"/>
+
+    <EditTextPreference
+        app:key="remotecommand"
+        app:title="Remote Command(e.g. Shoot!Shoot!)"/>
+
 </PreferenceScreen>
 

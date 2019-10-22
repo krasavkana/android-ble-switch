@@ -17,6 +17,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,12 +56,18 @@ public class BleSwitchService extends Service {
     private final static int REQUEST_ENABLE_BT = 1;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
+    private static final String REMOTE_PACKAGE_NAME_DEFAULT = "com.krasavkana.android.decoycamera";
+    private static final String REMOTE_CLASS_NAME_DEFAULT = "com.krasavkana.android.decoycamera.CameraActivity";
+    private static final String REMOTE_COMMAND_DEFAULT = "shoot!shoot!";
+
     private String mBleDeviceName;
     private String mBleDeviceAddress;
     private String mBleServiceUuid;
     private String mBleScanMode;
-//    private String mBleUuid = "b3b36901-50d3-4044-808d-50835b13a6cd";
-//    private String mBleAddress = "F2:82:B4:89:B0:A3";
+
+    private String mRemotePackageName;
+    private String mRemoteClassName;
+    private String mRemoteCommand;
 
 
     private final static String SCAN_LOW_LATENCY = "Latency";
@@ -86,9 +94,24 @@ public class BleSwitchService extends Service {
         Log.d(TAG, "mBleDeviceAddress: " + mBleDeviceAddress);
         mBleScanMode = intent.getStringExtra("BLE_SCAN_MODE");
         Log.d(TAG, "mBleScanMode: " + mBleScanMode);
+        mRemotePackageName = intent.getStringExtra("REMOTE_PACKAGE_NAME");
+        if(mRemotePackageName.isEmpty()){
+            mRemotePackageName = REMOTE_PACKAGE_NAME_DEFAULT;
+        }
+        Log.d(TAG, "mRemotePackageName: " + mRemotePackageName);
+        mRemoteClassName = intent.getStringExtra("REMOTE_CLASS_NAME");
+        if(mRemoteClassName.isEmpty()){
+            mRemoteClassName = REMOTE_CLASS_NAME_DEFAULT;
+        }
+        Log.d(TAG, "mRemoteClassName: " + mRemoteClassName);
+        mRemoteCommand = intent.getStringExtra("REMOTE_COMMAND");
+        if(mRemoteCommand.isEmpty()){
+            mRemoteCommand = REMOTE_COMMAND_DEFAULT;
+        }
+        Log.d(TAG, "mRemoteCommand: " + mRemoteCommand);
         Context context = getApplicationContext();
         String channelId = "default";
-        String title = "Ble Switches That Control Smartphone";
+        String title = "Ble Switch That Remote Appliation";
 
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -108,7 +131,7 @@ public class BleSwitchService extends Service {
                 Notification notification = new Notification.Builder(context, channelId)
                         .setContentTitle(title)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentText("Start Scanning Ble Switches")
+                        .setContentText("Scanning Speicified BLE switches")
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent)
                         .setWhen(System.currentTimeMillis())
@@ -119,7 +142,7 @@ public class BleSwitchService extends Service {
             }
         }
 
-        // MainActivityによりデービスや権限等の存在が確認されている想定。
+        // MainActivityによりサービスや権限等の存在が確認されている想定。
         btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         if (btManager == null) { stopSelf(); }
         btAdapter = btManager.getAdapter();
@@ -128,8 +151,8 @@ public class BleSwitchService extends Service {
 
         startScanning();
 
-        //return START_NOT_STICKY;
-        return START_STICKY;
+        return START_NOT_STICKY;
+        //return START_STICKY;
         //return START_REDELIVER_INTENT;
     }
 
@@ -145,13 +168,18 @@ public class BleSwitchService extends Service {
             // this line for PochiruEco device
             result.getDevice().connectGatt(getApplicationContext(), false, leGattCallback);
 
-            Log.d(TAG, "Service send ble cmd to remote-app via intent mechanism");
+            Log.d(TAG, "Send BLE command to remote-application");
             Intent intent = new Intent();
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setClassName("com.krasavkana.android.decoycamera", "com.krasavkana.android.decoycamera.CameraActivity");
+            intent.setClassName(mRemotePackageName, mRemoteClassName);
             intent.putExtra("bleCommand", "Shoot!Shoot!");
-            startActivity(intent);
 
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Log.d(TAG, "Intent to be invoked NOT found");
+                stopSelf();
+            }
             startScanning();
         }
         @Override
@@ -217,7 +245,9 @@ public class BleSwitchService extends Service {
                         settings.setScanMode(ScanSettings.SCAN_MODE_BALANCED);
                         break;
                 }
+                Log.d(TAG, "beScanner.startScan calling");
                 btScanner.startScan(filter, settings.build(), leScanCallback);
+                Log.d(TAG, "beScanner.startScan called");
             }
         });
     }
@@ -227,7 +257,9 @@ public class BleSwitchService extends Service {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "beScanner.stopScan calling");
                 btScanner.stopScan(leScanCallback);
+                Log.d(TAG, "beScanner.stopScan called");
             }
         });
     }

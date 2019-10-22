@@ -7,4 +7,8 @@
     <string name="address_text">address</string>
     <string name="default_value_preference_theme">light</string>
     <string name="default_value_preference_blescan">Latency</string>
+    <string name="default_value_bleserviceuuid">b3b36901-50d3-4044-808d-50835b13a6cd</string>
+    <string name="default_value_remotepackage">com.krasavkana.android.decoycamera</string>
+    <string name="default_value_remoteclass">com.krasavkana.android.decoycamera.CameraActivity</string>
+    <string name="default_value_remotecommand">Shoot!Shoot!</string>
 </resources>
